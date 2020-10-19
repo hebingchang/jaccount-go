@@ -63,6 +63,61 @@ type Identity struct {
 	GraduateDate  string `json:"graduateDate,omitempty"`
 }
 
+type Course struct {
+	Code string `json:"code"`
+	Name string `json:"name"`
+	Kind string `json:"kind"`
+}
+
+type Teacher struct {
+	Name string `json:"name"`
+	Kind string `json:"kind"`
+}
+
+type Organize struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type Schedule struct {
+	Kind   string `json:"kind"`
+	Week   int    `json:"week"`
+	Day    int    `json:"day"`
+	Period int    `json:"period"`
+	Start  int    `json:"start"`
+	Finish int    `json:"finish"`
+}
+
+type Classroom struct {
+	Name string `json:"name"`
+	Kind string `json:"kind"`
+}
+
+type Class struct {
+	Schedule  Schedule  `json:"schedule"`
+	Classroom Classroom `json:"classroom"`
+}
+
+type Lesson struct {
+	Name     string    `json:"name"`
+	Kind     string    `json:"kind"`
+	Bsid     string    `json:"bsid"`
+	Code     string    `json:"code"`
+	Course   Course    `json:"course"`
+	Teachers []Teacher `json:"teachers"`
+	Organize Organize  `json:"organize"`
+	Hours    int       `json:"hours"`
+	Credits  int       `json:"credits"`
+	Classes  []Class   `json:"classes"`
+}
+
+type lessonsResp struct {
+	Errno    int      `json:"errno"`
+	Error    string   `json:"error"`
+	Total    int      `json:"total"`
+	Entities []Lesson `json:"entities"`
+}
+
 type profileResp struct {
 	Errno    int       `json:"errno"`
 	Error    string    `json:"error"`

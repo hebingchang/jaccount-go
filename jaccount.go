@@ -56,3 +56,51 @@ func (client *JAccountClient) GetProfile() (*Profile, error) {
 	_ = json.Unmarshal(r.Bytes(), &resp)
 	return &resp.Entities[0], nil
 }
+
+func (client *JAccountClient) GetCourse(code string) (*Lesson, error) {
+	if client.Token == nil {
+		return nil, errors.New("haven't exchange access token")
+	}
+
+	param := req.Param{
+		"access_token": client.Token.AccessToken,
+	}
+
+	r, err := req.Get("https://api.sjtu.edu.cn/v1/lesson/"+code, param)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp lessonsResp
+	_ = json.Unmarshal(r.Bytes(), &resp)
+
+	if resp.Errno == 0 {
+		return &resp.Entities[0], nil
+	} else {
+		return nil, errors.New(resp.Error)
+	}
+}
+
+func (client *JAccountClient) GetCourses(semester ...string) ([]Lesson, error) {
+	if client.Token == nil {
+		return nil, errors.New("haven't exchange access token")
+	}
+
+	param := req.Param{
+		"access_token": client.Token.AccessToken,
+	}
+
+	url := "https://api.sjtu.edu.cn/v1/me/lessons"
+	if len(semester) > 0 {
+		url += "/" + semester[0]
+	}
+
+	r, err := req.Get(url, param)
+	if err != nil {
+		return nil, err
+	}
+
+	var resp lessonsResp
+	_ = json.Unmarshal(r.Bytes(), &resp)
+	return resp.Entities, nil
+}
