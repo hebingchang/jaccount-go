@@ -15,27 +15,23 @@ import (
 * @Description:
  */
 
-type JAccountClient struct {
+type JAccountAuth struct {
 	oauth2.Config
-	Token *oauth2.Token
 }
 
-func (client *JAccountClient) GetAuthUrl() (string, string) {
+func (client *JAccountAuth) GetAuthUrl() (string, string) {
 	state := uuid.NewV4().String()
 	url := client.AuthCodeURL(state)
 	return url, state
 }
 
-func (client *JAccountClient) Auth(code string) error {
+func (client *JAccountAuth) Auth(code string) (*oauth2.Token, error) {
 	ctx := context.Background()
+	return client.Exchange(ctx, code)
+}
 
-	token, err := client.Exchange(ctx, code)
-	if err != nil {
-		return err
-	}
-
-	client.Token = token
-	return nil
+type JAccountClient struct {
+	Token *oauth2.Token
 }
 
 func (client *JAccountClient) GetProfile() (*Profile, error) {
