@@ -81,7 +81,7 @@ func (client *JAccountClient) GetCourse(code string) (*Lesson, error) {
 	}
 }
 
-func (client *JAccountClient) GetCourses(semester ...string) ([]Lesson, error) {
+func (client *JAccountClient) GetLessons(semester ...string) ([]Lesson, error) {
 	if client.Token == nil {
 		return nil, errors.New("haven't exchange access token")
 	}
