@@ -7,6 +7,7 @@ import (
 	"github.com/imroc/req"
 	uuid "github.com/satori/go.uuid"
 	"golang.org/x/oauth2"
+	"net/http"
 )
 
 /**
@@ -30,20 +31,19 @@ func (client *JAccountAuth) Auth(code string) (*oauth2.Token, error) {
 	return client.Exchange(ctx, code)
 }
 
+func (client *JAccountAuth) GetClient(token *oauth2.Token) *http.Client {
+	ctx := context.Background()
+	return client.Client(ctx, token)
+}
+
 type JAccountClient struct {
-	Token *oauth2.Token
+	Client *http.Client
 }
 
 func (client *JAccountClient) GetProfile() (*Profile, error) {
-	if client.Token == nil {
-		return nil, errors.New("haven't exchange access token")
-	}
+	req.SetClient(client.Client)
 
-	param := req.Param{
-		"access_token": client.Token.AccessToken,
-	}
-
-	r, err := req.Get("https://api.sjtu.edu.cn/v1/me/profile", param)
+	r, err := req.Get("https://api.sjtu.edu.cn/v1/me/profile")
 	if err != nil {
 		return nil, err
 	}
@@ -54,15 +54,9 @@ func (client *JAccountClient) GetProfile() (*Profile, error) {
 }
 
 func (client *JAccountClient) GetCourse(code string) (*Lesson, error) {
-	if client.Token == nil {
-		return nil, errors.New("haven't exchange access token")
-	}
+	req.SetClient(client.Client)
 
-	param := req.Param{
-		"access_token": client.Token.AccessToken,
-	}
-
-	r, err := req.Get("https://api.sjtu.edu.cn/v1/lesson/"+code, param)
+	r, err := req.Get("https://api.sjtu.edu.cn/v1/lesson/" + code)
 	if err != nil {
 		return nil, err
 	}
@@ -78,20 +72,14 @@ func (client *JAccountClient) GetCourse(code string) (*Lesson, error) {
 }
 
 func (client *JAccountClient) GetLessons(semester ...string) ([]Lesson, error) {
-	if client.Token == nil {
-		return nil, errors.New("haven't exchange access token")
-	}
-
-	param := req.Param{
-		"access_token": client.Token.AccessToken,
-	}
+	req.SetClient(client.Client)
 
 	url := "https://api.sjtu.edu.cn/v1/me/lessons"
 	if len(semester) > 0 {
 		url += "/" + semester[0]
 	}
 
-	r, err := req.Get(url, param)
+	r, err := req.Get(url)
 	if err != nil {
 		return nil, err
 	}
