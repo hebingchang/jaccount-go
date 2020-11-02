@@ -107,7 +107,7 @@ type Lesson struct {
 	Teachers []Teacher `json:"teachers"`
 	Organize Organize  `json:"organize"`
 	Hours    int       `json:"hours"`
-	Credits  int       `json:"credits"`
+	Credits  float64   `json:"credits"`
 	Classes  []Class   `json:"classes"`
 }
 
