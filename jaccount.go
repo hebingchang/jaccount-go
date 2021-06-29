@@ -31,6 +31,13 @@ func (client *JAccountAuth) Auth(code string) (*oauth2.Token, error) {
 	return client.Exchange(ctx, code)
 }
 
+func (client *JAccountAuth) AuthWithRetUrl(code string, retUrl string) (*oauth2.Token, error) {
+	ctx := context.Background()
+	config := client.Config
+	config.RedirectURL = retUrl
+	return config.Exchange(ctx, code)
+}
+
 func (client *JAccountAuth) GetClient(token *oauth2.Token) *http.Client {
 	ctx := context.Background()
 	return client.Client(ctx, token)
