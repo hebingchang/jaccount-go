@@ -17,6 +17,10 @@ type Profile struct {
 		Name string `json:"name"`
 		ID   string `json:"id"`
 	} `json:"organize"`
+	TopOrganize struct {
+		Name string `json:"name"`
+		ID   string `json:"id"`
+	} `json:"topOrganize"`
 	ClassNo string `json:"classNo"`
 	Avatars struct {
 	} `json:"avatars"`
@@ -25,25 +29,35 @@ type Profile struct {
 		BirthMonth string `json:"birthMonth"`
 		BirthDay   string `json:"birthDay"`
 	} `json:"birthday"`
-	Gender     string     `json:"gender"`
-	Email      string     `json:"email"`
-	TimeZone   int        `json:"timeZone"`
-	Mobile     string     `json:"mobile"`
-	Identities []Identity `json:"identities"`
-	CardNo     string     `json:"cardNo"`
-	CardType   string     `json:"cardType"`
-	UnionID    string     `json:"unionId"`
+	Gender          string     `json:"gender"`
+	Email           string     `json:"email"`
+	TimeZone        int        `json:"timeZone"`
+	Mobile          string     `json:"mobile"`
+	Identities      []Identity `json:"identities"`
+	CardNo          string     `json:"cardNo"`
+	CardType        string     `json:"cardType"`
+	UnionID         string     `json:"unionId"`
+	AccountPhotoURL string     `json:"accountPhotoUrl"`
 }
 
 type Identity struct {
-	Kind      string `json:"kind"`
-	IsDefault bool   `json:"isDefault"`
-	Code      string `json:"code"`
-	UserType  string `json:"userType"`
-	Organize  struct {
+	Kind         string `json:"kind"`
+	IsDefault    bool   `json:"isDefault"`
+	Code         string `json:"code"`
+	UserType     string `json:"userType"`
+	UserTypeName string `json:"userTypeName"`
+	Organize     struct {
 		Name string `json:"name"`
 		ID   string `json:"id"`
 	} `json:"organize"`
+	TopOrganize struct {
+		Name string `json:"name"`
+		ID   string `json:"id"`
+	} `json:"topOrganize"`
+	TopOrganizes []struct {
+		Name string `json:"name"`
+		ID   string `json:"id"`
+	} `json:"topOrganizes"`
 	ExpireDate  string `json:"expireDate,omitempty"`
 	CreateDate  int    `json:"createDate"`
 	UpdateDate  int    `json:"updateDate"`
@@ -51,6 +65,10 @@ type Identity struct {
 		Name string `json:"name"`
 		ID   string `json:"id"`
 	} `json:"mgtOrganize,omitempty"`
+	TopMgtOrganize struct {
+		Name string `json:"name"`
+		ID   string `json:"id"`
+	} `json:"topMgtOrganize,omitempty"`
 	Status  string `json:"status,omitempty"`
 	ClassNo string `json:"classNo,omitempty"`
 	Gjm     string `json:"gjm,omitempty"`
@@ -58,9 +76,14 @@ type Identity struct {
 		Name string `json:"name"`
 		ID   string `json:"id"`
 	} `json:"major,omitempty"`
-	AdmissionDate string `json:"admissionDate,omitempty"`
-	TrainLevel    string `json:"trainLevel,omitempty"`
-	GraduateDate  string `json:"graduateDate,omitempty"`
+	AdmissionDate   string `json:"admissionDate,omitempty"`
+	TrainLevel      string `json:"trainLevel,omitempty"`
+	GraduateDate    string `json:"graduateDate,omitempty"`
+	DefaultOptional bool   `json:"defaultOptional"`
+	Type            struct {
+		ID   string `json:"id"`
+		Name string `json:"name"`
+	} `json:"type,omitempty"`
 }
 
 type Course struct {

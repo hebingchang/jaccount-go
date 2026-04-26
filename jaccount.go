@@ -4,10 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"net/http"
+
 	"github.com/imroc/req"
 	uuid "github.com/satori/go.uuid"
 	"golang.org/x/oauth2"
-	"net/http"
 )
 
 /**
